@@ -15,7 +15,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/employees")
+    @PostMapping("/admin/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         userService.saveUser(user);
         return ResponseEntity
@@ -23,15 +23,15 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<User> findAllUsers(@PathVariable Long id) {
+    @GetMapping("/user/findById/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable Long id) {
         User user = userService.getUserById(id).get();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(user);
     }
 
-    @GetMapping("/employees/{userName}")
+    @GetMapping("/user/findByName/{userName}")
     public ResponseEntity<User> findUserByUserName(@PathVariable String userName) {
         User user = userService.findByUserName(userName).get();
         return ResponseEntity
@@ -39,7 +39,7 @@ public class UserController {
                 .body(user);
     }
 
-    @GetMapping("/employees/{email}")
+    @GetMapping("/user/findByEmail/{email}")
     public ResponseEntity<User> findUserByEmail(@PathVariable String email) {
         User user = userService.findByEmail(email).get();
         return ResponseEntity
@@ -47,7 +47,7 @@ public class UserController {
                 .body(user);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/admin/deleteUserById/{id}")
     public ResponseEntity deleteUserById(@PathVariable("id") long userId) {
         userService.deleteById(userId);
         return ResponseEntity
@@ -55,7 +55,7 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("/deleteUser/{userName}")
+    @DeleteMapping("/admin/deleteUserByName/{userName}")
     public ResponseEntity deleteUserByUserName(@PathVariable("userName") String userName) {
         userService.deleteByUserName(userName);
         return ResponseEntity
@@ -63,7 +63,7 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("/deleteUser/{email}")
+    @DeleteMapping("/admin/deleteUserByEmail/{email}")
     public ResponseEntity deleteUserByEmail(@PathVariable("email") String email) {
         userService.deleteByEmail(email);
         return ResponseEntity

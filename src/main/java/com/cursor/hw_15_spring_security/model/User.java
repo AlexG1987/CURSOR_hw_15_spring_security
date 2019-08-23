@@ -1,11 +1,13 @@
 package com.cursor.hw_15_spring_security.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,10 +29,11 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "email", nullable = false)
+    @Email
     private String email;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "USERS_ROLE",joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "USERS_ROLE", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
@@ -54,6 +57,7 @@ public class User implements UserDetails {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return false;
