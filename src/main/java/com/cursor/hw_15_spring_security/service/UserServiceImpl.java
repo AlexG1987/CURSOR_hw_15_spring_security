@@ -20,17 +20,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Optional<User> getUserById(Long id) {
-        return userRepository.getUserById(id).isPresent() ? userRepository.getUserById(id) : Optional.empty();
+        if (userRepository.getUserById(id).isPresent()) {
+            return userRepository.getUserById(id);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<User> findByUserName(String userName) {
-        return userRepository.findByUserName(userName).isPresent() ? userRepository.findByUserName(userName) : Optional.empty();
+        if (userRepository.findByUserName(userName).isPresent()) {
+            return userRepository.findByUserName(userName);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email).isPresent() ? userRepository.findByEmail(email) : Optional.empty();
+        if (userRepository.findByEmail(email).isPresent()) {
+            return userRepository.findByEmail(email);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -59,7 +71,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByUserName(s).get();
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        if (userRepository.findByUserName(userName).isPresent()) {
+            return userRepository.findByUserName(userName).get();
+        } else {
+            throw new UsernameNotFoundException("User not found!");
+        }
     }
 }
